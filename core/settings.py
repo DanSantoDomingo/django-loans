@@ -127,7 +127,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # RABBITMQ
 
-RABBITMQ_URL = os.getenv("RABBITMQ_URL", "amqp://admin:admin@localhost:5672//")
+RABBITMQ_URL = os.getenv(
+    "RABBITMQ_URL", "amqp://admin:admin@host.docker.internal:5672//"
+)
 
 
 # Celery
