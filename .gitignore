@@ -1,0 +1,25 @@
+# Python byte-compiled/optimized/DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python env
+venv/
+
+# IDE/text editor metadata files
+*.vscode/
+
+# Crap
+.DS_Store
+
+# Django default database
+*.sqlite*
+
+# Local environment variables
+.env
+
+# Local staticfiles dir
+public/
+
+# RSA keys
+*.pem
