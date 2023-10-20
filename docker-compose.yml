@@ -1,0 +1,60 @@
+---
+version: '3'
+
+services:
+  app:
+    depends_on:
+      - rabbitmq
+    build:
+      context: .
+    volumes:
+      - .:/source
+    environment: &app-env
+      - DEBUG
+      - DATABASES_DEFAULT_HOST
+      - DATABASES_DEFAULT_USER
+      - DATABASES_DEFAULT_PASSWORD
+      - DATABASES_DEFAULT_NAME
+      - STATIC_URL
+      - STATICFILES_STORAGE
+      - RABBITMQ_URL
+      - CELERY_BROKER_URL
+    ports:
+      - 8000:8000
+    command:
+      - /bin/bash
+      - -c
+      - pip install poetry
+          && poetry config virtualenvs.create false
+          && poetry install --only main
+          && python manage.py runserver 0.0.0.0:8000
+
+  worker:
+    build:
+      context: .
+    depends_on:
+      - app
+    image: vector-ml-app:latest
+    volumes:
+      - .:/source
+    environment: *app-env
+    command:
+      - /bin/bash
+      - -c
+      - pip install poetry
+        && poetry config virtualenvs.create false
+        && poetry install --only main
+        && celery -A core worker -l INFO
+
+
+  rabbitmq:
+    image: rabbitmq:3.10-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+volumes:
+  rabbitmq-data:

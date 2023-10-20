@@ -1,0 +1,31 @@
+# Docker-related files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Local environment variables
+.env
+
+# Git-related files
+.git
+.gitignore
+
+# Python byte-compiled/optimized/DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE/text editor metadata files
+*.sublime-*
+.editorconfig
+.python-version
+*.vscode/
+
+# Local staticfiles dir
+public/
+
+# RSA keys
+*.pem
+
+# Crap
+.DS_Store
