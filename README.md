@@ -1,0 +1,2 @@
+- Clone the project `git clone https://github.com/DanSantoDomingo/django-loans.git`
+- Run it `docker-compose up`
