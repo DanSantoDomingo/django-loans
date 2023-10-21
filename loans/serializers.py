@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Loan, LoanExcel
+from .models import AmortizationSchedule, Loan, LoanExcel
 from .tasks import create_loans_and_amortizations
 
 
@@ -30,4 +30,25 @@ class LoanSerializer(serializers.ModelSerializer):
             "monthly_interest_rate",
             "monthly_payment",
             "smm",
+        ]
+
+
+class AmortizationScheduleSerializer(serializers.ModelSerializer):
+    loan = LoanSerializer()
+
+    class Meta:
+        model = AmortizationSchedule
+        fields = [
+            "id",
+            "period",
+            "date",
+            "opening_balance",
+            "payment",
+            "pre_payment",
+            "interest_rate",
+            "monthly_interest_rate",
+            "interest",
+            "principal",
+            "closing_balance",
+            "loan",
         ]
