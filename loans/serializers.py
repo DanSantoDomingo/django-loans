@@ -4,10 +4,14 @@ from .models import AmortizationSchedule, Loan, LoanExcel
 from .tasks import create_loans_and_amortizations
 
 
-class LoanExcelSerializer(serializers.ModelSerializer):
+class LoanExcelSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name="loan-uploads-detail", lookup_field="id"
+    )
+
     class Meta:
         model = LoanExcel
-        fields = ["excel_file"]
+        fields = ["id", "url", "excel_file"]
 
     def create(self, validated_data):
         loan_excel = LoanExcel.objects.create(**validated_data)

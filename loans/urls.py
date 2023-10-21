@@ -4,10 +4,12 @@ from rest_framework.routers import SimpleRouter
 from . import views
 
 router = SimpleRouter()
-router.register("loans", views.LoanReadOnlyViewSet)
-router.register("amortization-schedules", views.AmortizationScheduleViewSet)
+router.register("loans-excel", views.LoanUploadView, "loan-uploads")
+router.register("loans", views.LoanReadOnlyViewSet, "loans")
+router.register(
+    "amortization-schedules", views.AmortizationScheduleViewSet, "amortizations"
+)
 
 urlpatterns = [
-    path("api/loans/", views.LoanUploadView.as_view()),
     path("api/", include(router.urls)),
 ]
