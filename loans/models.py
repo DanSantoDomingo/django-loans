@@ -64,3 +64,37 @@ class Loan(models.Model):
         self.monthly_payment = self._calculate_monthly_payment()
         self.smm = self._calculate_smm()
         super(Loan, self).save(*args, **kwargs)
+
+
+class AmortizationSchedule(models.Model):
+    loan = models.ForeignKey(Loan, on_delete=models.CASCADE)
+    period = models.PositiveIntegerField()
+    date = models.DateField()
+    opening_balance = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal(0)
+    )
+    payment = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal(0)
+    )
+    pre_payment = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal(0)
+    )
+    interest_rate = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+    )
+    monthly_interest_rate = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+    )
+    interest = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal(0)
+    )
+    principal = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal(0)
+    )
+    closing_balance = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal(0)
+    )
