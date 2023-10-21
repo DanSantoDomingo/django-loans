@@ -19,7 +19,7 @@ class PaymentFrequency(models.TextChoices):
 
 
 class Loan(models.Model):
-    loan_number = models.PositiveBigIntegerField()
+    loan_number = models.PositiveBigIntegerField(unique=True)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     annual_interest_rate = models.DecimalField(
         max_digits=5,
