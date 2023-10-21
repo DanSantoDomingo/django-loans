@@ -6,9 +6,12 @@ authors = ["Dan Sto. Domingo <danielesto.domingo@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.13"
 django = "4.2.6"
 celery = "^5.3.4"
+numpy = "^1.26.1"
+numpy-financial = "^1.0.0"
+returns = "^0.22.0"
 
 
 [tool.poetry.group.dev.dependencies]
