@@ -1,14 +1,23 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import CreateAPIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from .models import Loan
-from .serializers import LoanExcelSerializer, LoanSerializer
+from . import serializers
+from .filtersets import AmortizationScheduleFilter
+from .models import AmortizationSchedule, Loan
 
 
 class LoanUploadView(CreateAPIView):
-    serializer_class = LoanExcelSerializer
+    serializer_class = serializers.LoanExcelSerializer
 
 
 class LoanReadOnlyViewSet(ReadOnlyModelViewSet):
     queryset = Loan.objects.all()
-    serializer_class = LoanSerializer
+    serializer_class = serializers.LoanSerializer
+
+
+class AmortizationScheduleViewSet(ReadOnlyModelViewSet):
+    queryset = AmortizationSchedule.objects.all().select_related("loan")
+    serializer_class = serializers.AmortizationScheduleSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = AmortizationScheduleFilter
