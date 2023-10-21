@@ -59,6 +59,9 @@ class Loan(models.Model):
         smm = (1 - ((1 - cpr_decimal) ** Decimal(1 / 12))) * 100
         return smm
 
+    def __str__(self) -> str:
+        return f"Loan: {self.amount:,}"
+
     def save(self, *args, **kwargs):
         self.monthly_interest_rate = self._calculate_monthly_interest_rate()
         self.monthly_payment = self._calculate_monthly_payment()
