@@ -1,9 +1,14 @@
 from django.contrib import admin
 
-from loans.models import AmortizationSchedule, Loan
+from loans.models import AmortizationSchedule, Loan, LoanExcel
 
 
 # Register your models here.
+@admin.register(LoanExcel)
+class LoanExcelAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(Loan)
 class LoanAdmin(admin.ModelAdmin):
     readonly_fields = ["monthly_interest_rate", "monthly_payment", "smm"]

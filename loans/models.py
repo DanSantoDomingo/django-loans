@@ -7,6 +7,13 @@ from django.db import models
 from commons.utils import convert_to_decimal
 
 
+class LoanExcel(models.Model):
+    excel_file = models.FileField()
+
+    def __str__(self) -> str:
+        return self.excel_file.name
+
+
 class PaymentFrequency(models.TextChoices):
     MONTHLY = "Monthly"
 
