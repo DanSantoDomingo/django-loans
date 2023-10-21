@@ -57,9 +57,10 @@ class Loan(models.Model):
 
     def _calculate_monthly_payment(self):
         negative = -self.amount
-        return npf.pmt(
+        pmt = npf.pmt(
             convert_to_decimal(self.monthly_interest_rate), self.term, negative
         )
+        return pmt.quantize(Decimal("0.00"))
 
     def _calculate_smm(self):
         # Calculate Single Monthly Mortality
