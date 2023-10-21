@@ -57,36 +57,43 @@ def create_loan_amortization_schedule(loan_id: int):
                     loan=loan,
                     period=period,
                     date=loan.start_date,
-                    interest_rate=Decimal(0),
-                    monthly_interest_rate=Decimal(0),
+                    interest_rate=Decimal(),
+                    monthly_interest_rate=Decimal(),
                     closing_balance=loan.amount,
                 )
             )
             continue
 
+        loan_monthly_payment = loan.calculate_monthly_payment
+        loan_smm = loan.calculate_smm
+
         previous: AmortizationSchedule = schedules[-1]
-        opening_balance = previous.closing_balance.quantize(Decimal("0.00"))
+        opening_balance = previous.closing_balance
+
         interest_rate: Decimal = (
             loan.annual_interest_rate
-            if opening_balance > Decimal("0.00")
-            else Decimal("0.00")
+            if opening_balance > Decimal()
+            else Decimal()
         )
-        monthly_interest_rate: Decimal = (interest_rate / 12).quantize(
-            Decimal("0.00")
+
+        monthly_interest_rate: Decimal = interest_rate / 12
+
+        interest: Decimal = opening_balance * convert_to_decimal(
+            interest_rate / 12
         )
-        interest: Decimal = (
-            opening_balance * convert_to_decimal(monthly_interest_rate)
-        ).quantize(Decimal("0.00"))
-        payment: Decimal = min(
-            loan.monthly_payment, opening_balance + interest
-        ).quantize(Decimal("0.00"))
+
+        payment: Decimal = min(loan_monthly_payment, opening_balance + interest)
+
         pre_payment: Decimal = (
             Decimal(0)
-            if payment < loan.monthly_payment
-            else opening_balance * convert_to_decimal(loan.smm)
+            if payment < loan_monthly_payment
+            else opening_balance * convert_to_decimal(loan_smm)
         )
+
         principal: Decimal = payment + (pre_payment - interest)
+
         closing_balance: Decimal = opening_balance - principal
+
         next = AmortizationSchedule(
             loan=loan,
             period=period,

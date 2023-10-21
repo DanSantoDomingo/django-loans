@@ -51,18 +51,23 @@ class Loan(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(100)],
     )
 
-    def _calculate_monthly_interest_rate(self):
+    @property
+    def calculate_monthly_interest_rate(self):
         monthly_interest_rate = self.annual_interest_rate / 12
         return monthly_interest_rate
 
-    def _calculate_monthly_payment(self):
+    @property
+    def calculate_monthly_payment(self):
         negative = -self.amount
         pmt = npf.pmt(
-            convert_to_decimal(self.monthly_interest_rate), self.term, negative
+            convert_to_decimal(self.calculate_monthly_interest_rate),
+            self.term,
+            negative,
         )
-        return pmt.quantize(Decimal("0.00"))
+        return pmt
 
-    def _calculate_smm(self):
+    @property
+    def calculate_smm(self):
         # Calculate Single Monthly Mortality
         cpr_decimal = convert_to_decimal(self.cpr)
         smm = (1 - ((1 - cpr_decimal) ** Decimal(1 / 12))) * 100
@@ -72,9 +77,9 @@ class Loan(models.Model):
         return f"Loan {self.loan_number}-{self.amount:,}"
 
     def save(self, *args, **kwargs):
-        self.monthly_interest_rate = self._calculate_monthly_interest_rate()
-        self.monthly_payment = self._calculate_monthly_payment()
-        self.smm = self._calculate_smm()
+        self.monthly_interest_rate = self.calculate_monthly_interest_rate
+        self.monthly_payment = self.calculate_monthly_payment
+        self.smm = self.calculate_smm
         super(Loan, self).save(*args, **kwargs)
 
 
