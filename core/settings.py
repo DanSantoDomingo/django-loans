@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "loans",
     "rest_framework",
     "django_filters",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -156,6 +157,7 @@ REST_FRAMEWORK = {
         "djangorestframework_camel_case.parser.CamelCaseFormParser",
         "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 
@@ -203,3 +205,16 @@ START_DATE = os.getenv("START_DATE", "start_date")
 PAYMENT_TERM = os.getenv("PAYMENT_TERM", "term")
 PAY_FREQUENCY = os.getenv("PAY_FREQUENCY", "payment frequency")
 CPR = os.getenv("CPR", "CPR (Conditional Prepayment Rate)")
+
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Loans REST API",
+    "DESCRIPTION": "Endpoints description for Loans API",
+    "VERSION": "1.0.0",
+    "SCHEMA_PATH_PREFIX": r"/api/",
+    "POSTPROCESSING_HOOKS": [
+        "drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields"  # noqa: E501
+    ],
+    "CAMELIZE_NAMES": True,
+    "COMPONENT_SPLIT_REQUEST": True,
+}

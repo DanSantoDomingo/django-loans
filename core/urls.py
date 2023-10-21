@@ -16,10 +16,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from drf_spectacular import views as spectacular
 
 from loans.urls import urlpatterns as loans_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include(loans_urls)),
+    # Swagger and Redoc
+    path(
+        "api/schema/", spectacular.SpectacularAPIView.as_view(), name="schema"
+    ),
+    path(
+        "api/docs/swagger-ui/",
+        spectacular.SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+    path(
+        "api/docs/redoc/",
+        spectacular.SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
 ]
