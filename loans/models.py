@@ -19,6 +19,7 @@ class PaymentFrequency(models.TextChoices):
 
 
 class Loan(models.Model):
+    loan_number = models.PositiveBigIntegerField()
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     annual_interest_rate = models.DecimalField(
         max_digits=5,
@@ -67,7 +68,7 @@ class Loan(models.Model):
         return smm
 
     def __str__(self) -> str:
-        return f"Loan: {self.amount:,}"
+        return f"Loan {self.loan_number}-{self.amount:,}"
 
     def save(self, *args, **kwargs):
         self.monthly_interest_rate = self._calculate_monthly_interest_rate()
@@ -77,7 +78,7 @@ class Loan(models.Model):
 
 
 class AmortizationSchedule(models.Model):
-    loan = models.ForeignKey(Loan, on_delete=models.CASCADE)
+    loan = models.ForeignKey(Loan, on_delete=models.PROTECT)
     period = models.PositiveIntegerField()
     date = models.DateField()
     opening_balance = models.DecimalField(
