@@ -218,5 +218,5 @@ SPECTACULAR_SETTINGS = {
         "drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields"  # noqa: E501
     ],
     "CAMELIZE_NAMES": True,
-    # "COMPONENT_SPLIT_REQUEST": True,
+    "COMPONENT_SPLIT_REQUEST": True,
 }
