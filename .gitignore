@@ -20,6 +20,7 @@ venv/
 
 # Local staticfiles dir
 public/
+media/
 
 # RSA keys
 *.pem
