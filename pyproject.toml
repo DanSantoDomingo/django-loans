@@ -17,6 +17,7 @@ djangorestframework-camel-case = "^1.4.2"
 pandas = "^2.1.1"
 openpyxl = "^3.1.2"
 django-filter = "^23.3"
+drf-spectacular = "^0.26.5"
 
 
 [tool.poetry.group.dev.dependencies]
