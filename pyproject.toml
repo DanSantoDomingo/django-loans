@@ -12,6 +12,7 @@ celery = "^5.3.4"
 numpy = "^1.26.1"
 numpy-financial = "^1.0.0"
 returns = "^0.22.0"
+djangorestframework = "^3.14.0"
 
 
 [tool.poetry.group.dev.dependencies]
