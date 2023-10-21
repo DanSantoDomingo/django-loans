@@ -4,7 +4,7 @@ from .models import AmortizationSchedule, Loan, LoanExcel
 from .tasks import create_loans_and_amortizations
 
 
-class LoanExcelSerializer(serializers.HyperlinkedModelSerializer):
+class LoanExcelSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name="loan-uploads-detail", lookup_field="id"
     )
@@ -20,10 +20,15 @@ class LoanExcelSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class LoanSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name="loans-detail", lookup_field="id"
+    )
+
     class Meta:
         model = Loan
         fields = [
             "id",
+            "url",
             "loan_number",
             "amount",
             "annual_interest_rate",
@@ -39,11 +44,15 @@ class LoanSerializer(serializers.ModelSerializer):
 
 class AmortizationScheduleSerializer(serializers.ModelSerializer):
     loan = LoanSerializer()
+    url = serializers.HyperlinkedIdentityField(
+        view_name="amortizations-detail", lookup_field="id"
+    )
 
     class Meta:
         model = AmortizationSchedule
         fields = [
             "id",
+            "url",
             "period",
             "date",
             "opening_balance",

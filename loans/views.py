@@ -16,6 +16,7 @@ class LoanUploadView(ModelViewSet):
 class LoanReadOnlyViewSet(ReadOnlyModelViewSet):
     queryset = Loan.objects.all()
     serializer_class = serializers.LoanSerializer
+    lookup_field = "id"
 
 
 class AmortizationScheduleViewSet(ReadOnlyModelViewSet):
@@ -23,3 +24,4 @@ class AmortizationScheduleViewSet(ReadOnlyModelViewSet):
     serializer_class = serializers.AmortizationScheduleSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = AmortizationScheduleFilter
+    lookup_field = "id"
