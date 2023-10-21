@@ -191,3 +191,14 @@ LOGGING = {
         },
     },
 }
+
+
+# Excel File column names
+
+LOAN_NUMBER = os.getenv("LOAN_NUMBER", "loan number")
+LOAN_AMOUNT = os.getenv("LOAN_AMOUNT", "loan amount")
+INTEREST_RATE = os.getenv("INTEREST_RATE", "interest_rate")
+START_DATE = os.getenv("START_DATE", "start_date")
+PAYMENT_TERM = os.getenv("PAYMENT_TERM", "term")
+PAY_FREQUENCY = os.getenv("PAY_FREQUENCY", "payment frequency")
+CPR = os.getenv("CPR", "CPR (Conditional Prepayment Rate)")
